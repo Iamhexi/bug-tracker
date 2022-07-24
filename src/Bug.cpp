@@ -1,7 +1,7 @@
 #include "Bug.hpp"
-#include <memory>
 
 Bug::Bug(int id,
+    std::string description,
     datetime reportedAt,
     datetime assignedAt,
     datetime solvedAt,

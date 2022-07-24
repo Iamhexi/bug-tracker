@@ -3,13 +3,11 @@
 
 using std::cin, std::string, std::cout;
 
+int System::bugCounter = 0;
 
-System::System() {
-    
-}
-
-void System::reportBug(string_view description) {
-    
+void System::reportBug(string_view description) 
+{
+    bugs.report( Bug( bugCounter++, string(description), 0, 0, 0, 0, signedUpUser) );
 }
 
 void System::assignBugToUser() {

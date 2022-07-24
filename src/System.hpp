@@ -5,14 +5,17 @@
 #include "User.hpp"
 #include "BugManager.hpp"
 
-using std::string_view;
+using std::string_view, std::string;
 using bugPtr = std::shared_ptr<Bug>;
+
 
 class System
 {
 private:
-    userPtr signedUpUser; // null to indicate being not logged in
+    userPtr signedUpUser = nullptr; // null to indicate being not logged in
     BugManager bugs;
+public:
+    static int bugCounter;
 public:
     System();
     void reportBug(string_view description);
