@@ -5,7 +5,6 @@
 #include "BugManager.hpp"
 
 using std::string_view;
-using userPtr = std::unique_ptr<User>;
 using bugPtr = std::shared_ptr<Bug>;
 
 class System

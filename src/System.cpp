@@ -18,7 +18,8 @@ void System::markBugAsSolved() {
     printBugChooser();
 }
 
-void System::login(string_view username, string_view password) {
+void System::login(string_view username, string_view password) 
+{
     
 }
 

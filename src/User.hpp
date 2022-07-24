@@ -1,8 +1,7 @@
-class Bug;
+#pragma once
 
 class User
 {
 public:
-    virtual void report(Bug& bug) = 0;
-
+    
 };
