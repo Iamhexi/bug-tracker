@@ -1,4 +1,7 @@
+#include <iostream>
 #include "System.hpp"
+
+using std::cin, std::string, std::cout;
 
 
 System::System() {
@@ -24,17 +27,22 @@ void System::login(string_view username, string_view password)
 }
 
 void System::printBugChooser() {
-    
 }
 
 void System::printUserChooser() {
     
 }
 
-void System::printUsernameInput() {
-    
+string System::printUsernameInput()
+{
+    string username;
+    cout << "Username: ";
+    cin >> username;
+    return username;
 }
 
-void System::printPasswordInput() {
-    
+string System::printPasswordInput() 
+{
+    // entered charactered need to be replaced with ***
+    return "";
 }
