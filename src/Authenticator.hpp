@@ -1,18 +1,17 @@
 #include <iostream>
 #include <string_view>
+#include <map>
 
-using std::string_view, std::string;
+using std::string_view, std::string, std::map;
 
 class Authenticator
 {
 private:
-    string correctHash;
+    map<string, string> credentials;
 public:
     Authenticator();
-    void login();
+    bool login(string_view username, string_view password);
 private:
-    bool usernameExists(string_view username, string_view password);
     string hashPassword(string_view password);
-    bool passwordMatchesUsername();
-    bool loadCorrectHash();
+    void loadCredentialsFromDatabase();
 };
