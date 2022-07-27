@@ -9,7 +9,7 @@ using row = std::map<string, string>;
 class Database 
 {
 private:
-    string databaseSourceFile = string("credentials.db");
+    string databaseSourceFile = string("../db/credentials.db");
     string table = string("credentials");
     sqlite3* db;
 public: 
@@ -17,6 +17,9 @@ public:
     ~Database();
     void execute(string_view sql);
     row getRow(string_view sql);
+private:
+    static int callback(void* data, int argc, char** argv, char** azColName);
+
 };
 
 struct DatabaseException : public std::exception {
