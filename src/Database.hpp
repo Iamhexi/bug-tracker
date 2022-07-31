@@ -4,7 +4,7 @@
 #include <sqlite3.h>
 
 using std::string, std::string_view;
-using row = std::map<string, long unsigned int>;
+using row = std::map<string, string>;
 
 class Database 
 {

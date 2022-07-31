@@ -19,7 +19,10 @@ void Authenticator::loadCredentialsFromDatabase()
 bool Authenticator::login(string_view username, string_view password)
 {
     try {
-        return hash(password) == credentials.at( string(username) );
+        std::cout << "From db: " << credentials.at(string(username)) << "\n";
+        std::cout << "From user: " << hash(password);
+
+        return std::to_string( hash(password) ) == credentials.at( string(username) );
     } catch (std::exception e){
         return false;
     }
@@ -29,6 +32,6 @@ bool Authenticator::signUp(string_view username, string_view password)
 {
     Database db;
     string hashedPassword = std::to_string( hash(password) );
-    return db.execute(string("INSERT INTO credentials VALUES (") + string(username) + ", " + hashedPassword + ");");
+    return db.execute(string("INSERT INTO credentials VALUES ('") + string(username) + "', '" + hashedPassword + "');");
 }
 

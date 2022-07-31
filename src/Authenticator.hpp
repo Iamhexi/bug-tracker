@@ -8,7 +8,7 @@ class Authenticator
 {
 private:
     std::hash<string_view> hash;
-    map<string, long unsigned int> credentials;
+    map<string, string> credentials;
 public:
     Authenticator();
     bool login(string_view username, string_view password);

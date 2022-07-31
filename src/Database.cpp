@@ -2,6 +2,7 @@
 #include <map>
 #include <cstddef>
 #include <iostream>
+#include <sstream>
 #include <exception>
 
 row Database::retrievedRecords;
@@ -43,10 +44,10 @@ int Database::getRowsCallback(void* data, int argc, char** argv, char** azColNam
 {
     row credentials;
     for (int i = 0; i < argc; i += 2) 
-    {
-        unsigned long int hashedPassword = static_cast<unsigned int>( *(argv[i+1]) );
-        credentials.insert( std::pair<string, long unsigned int>(argv[i], hashedPassword ) );
-    }
+        credentials.insert( std::pair<string, string>(argv[i], string(argv[i+1]) ) );
+
+    //for(auto& pair: credentials)
+        //std::cout << pair.first << " " << pair.second << "\n";
 
     // azColName[i] - a column name
     // argv[i] - a value of the record for this column
