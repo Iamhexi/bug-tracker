@@ -4,8 +4,11 @@
 #include <iostream>
 #include <exception>
 
+row Database::retrievedRecords;
+
 Database::Database() 
 {
+    retrievedRecords = row();
     int returnCode = sqlite3_open(databaseSourceFile.data(), &db);
     if (returnCode > 0)
         throw new DatabaseException();
@@ -16,32 +19,39 @@ Database::~Database()
     sqlite3_close(db);
 }
 
-void Database::execute(string_view sql) 
+bool Database::execute(string_view sql) 
 {
     string query = string(sql);
     string data("CALLBACK FUNCTION");
-    int rc = sqlite3_exec(db, query.c_str(), callback, (void*)data.c_str(), NULL);
-    // TODO 
-    //the sqlite3_prepare/sqlite3_step/sqlite3_finalize API
-    // would look like this: https://stackoverflow.com/questions/14437433/proper-use-of-callback-function-of-sqlite3-in-c
+    return !sqlite3_exec(db, query.c_str(), executeCallback, (void*)data.c_str(), NULL);
 }
 
-row Database::getRow(string_view sql) 
+row Database::getRows(string_view sql) 
 {
-    return row();
+    string query = string(sql);
+    string data("CALLBACK FUNCTION");
+    int rc = sqlite3_exec(db, query.c_str(), getRowsCallback, (void*)data.c_str(), NULL);
+    return retrievedRecords;
 }
 
-int Database::callback(void* data, int argc, char** argv, char** azColName)
+int Database::executeCallback(void* data, int argc, char** argv, char** azColName)
 {
-    std::map<string, string> credentials;
+    return 0;
+}
+
+int Database::getRowsCallback(void* data, int argc, char** argv, char** azColName)
+{
+    row credentials;
     for (int i = 0; i < argc; i += 2) 
-        credentials.insert( std::pair<string, string>(argv[i], argv[i+1]) );
+    {
+        unsigned long int hashedPassword = static_cast<unsigned int>( *(argv[i+1]) );
+        credentials.insert( std::pair<string, long unsigned int>(argv[i], hashedPassword ) );
+    }
 
     // azColName[i] - a column name
     // argv[i] - a value of the record for this column
-
-    for (auto& user: credentials)
-        std::cout << user.first << ' ' << user.second << std::endl;
+    
+    retrievedRecords = credentials;
   
     return 0;
 }

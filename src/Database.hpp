@@ -4,22 +4,23 @@
 #include <sqlite3.h>
 
 using std::string, std::string_view;
-using row = std::map<string, string>;
+using row = std::map<string, long unsigned int>;
 
 class Database 
 {
 private:
     string databaseSourceFile = string("../db/credentials.db");
-    string table = string("credentials");
     sqlite3* db;
+
+    static row retrievedRecords;
 public: 
     Database();
     ~Database();
-    void execute(string_view sql);
-    row getRow(string_view sql);
+    bool execute(string_view sql);
+    row getRows(string_view sql);
 private:
-    static int callback(void* data, int argc, char** argv, char** azColName);
-
+    static int getRowsCallback(void* data, int argc, char** argv, char** azColName);
+    static int executeCallback(void* data, int argc, char** argv, char** azColName);
 };
 
 struct DatabaseException : public std::exception {
