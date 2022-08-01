@@ -20,7 +20,7 @@ public:
     void reportBug(string_view description);
     void assignBugToUser(); // prompts to choose a bug from window, then from a user choosing window
     void markBugAsSolved(); // prompts to choose a bug choosing window
-    void login(); // shows text fields to give username and password
+    void login();
     void signUp();
 private:
     void printBugChooser(); // TODO return type to BugPtr

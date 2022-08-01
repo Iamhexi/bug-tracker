@@ -54,22 +54,7 @@ string System::requestUsername()
 
 string System::requestPassword() 
 {
-    // TODO: replace plaintext with '*' whilst entering the password
-    string password;
-    char c;
-    bool first = true;
-    cout << "Password: ";
-
-    while ((c = getchar()) != EOF) 
-    {
-        if (c == '\n' && !first)
-            break;
-        password += c;
-        first = false;
-        
-    }
-
-    password = password.substr(1, password.size()-1); // removes ENTER from the beggining
-
-    return password;
+    char* password;
+    password = getpass("Password: ");
+    return string(password);
 }

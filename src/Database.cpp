@@ -1,4 +1,5 @@
 #include "Database.hpp"
+#include <unistd.h>
 #include <map>
 #include <cstddef>
 #include <iostream>
@@ -45,7 +46,7 @@ int Database::getRowsCallback(void* data, int argc, char** argv, char** azColNam
     row credentials;
     for (int i = 0; i < argc; i += 2) 
         credentials.insert( std::pair<string, string>(argv[i], string(argv[i+1]) ) );
-
+    
     //for(auto& pair: credentials)
         //std::cout << pair.first << " " << pair.second << "\n";
 
