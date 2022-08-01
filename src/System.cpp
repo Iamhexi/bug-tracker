@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdio>
+#include "Authenticator.hpp"
 #include "System.hpp"
 
 using std::cin, std::string, std::cout;
@@ -7,7 +9,7 @@ int System::bugCounter = 0;
 
 void System::reportBug(string_view description)
 {
-    bugs.report( Bug( bugCounter++, string(description), 0, 0, 0, 0, signedUpUser) );
+    bugs.report( Bug( bugCounter++, string(description), 0, 0, 0, 0, currentUser ) );
 }
 
 void System::assignBugToUser() {
@@ -19,9 +21,20 @@ void System::markBugAsSolved() {
     printBugChooser();
 }
 
-void System::login(string_view username, string_view password) 
+void System::login() 
 {
+    string username = requestUsername();
+    string password = requestPassword();
+    Authenticator auth;
     
+    if (auth.login(username, password)) {
+        // TODO : using out of scope shared pointer causes segmentation fault!
+        currentUser = std::make_shared<User>( User(username) );
+        std::cout << "Successfully signed in.\n";
+    } else {
+        std::cout << "Failed to sign in, incorrect credentials were given.\n";
+    }
+
 }
 
 void System::printBugChooser() {
@@ -31,7 +44,7 @@ void System::printUserChooser() {
     
 }
 
-string System::printUsernameInput()
+string System::requestUsername()
 {
     string username;
     cout << "Username: ";
@@ -39,8 +52,24 @@ string System::printUsernameInput()
     return username;
 }
 
-string System::printPasswordInput() 
+string System::requestPassword() 
 {
-    // entered charactered need to be replaced with ***
-    return "";
+    // TODO: replace plaintext with '*' whilst entering the password
+    string password;
+    char c;
+    bool first = true;
+    cout << "Password: ";
+
+    while ((c = getchar()) != EOF) 
+    {
+        if (c == '\n' && !first)
+            break;
+        password += c;
+        first = false;
+        
+    }
+
+    password = password.substr(1, password.size()-1); // removes ENTER from the beggining
+
+    return password;
 }

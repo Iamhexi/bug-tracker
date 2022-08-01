@@ -19,9 +19,6 @@ void Authenticator::loadCredentialsFromDatabase()
 bool Authenticator::login(string_view username, string_view password)
 {
     try {
-        std::cout << "From db: " << credentials.at(string(username)) << "\n";
-        std::cout << "From user: " << hash(password);
-
         return std::to_string( hash(password) ) == credentials.at( string(username) );
     } catch (std::exception e){
         return false;
