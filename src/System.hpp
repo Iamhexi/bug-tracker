@@ -7,7 +7,7 @@
 
 using std::string_view, std::string;
 using bugPtr = std::shared_ptr<Bug>;
-
+using userPtr = std::shared_ptr<User>;
 
 class System
 {
@@ -18,13 +18,13 @@ public:
     static int bugCounter;
 public:
     void reportBug(string_view description);
-    void assignBugToUser(); // prompts to choose a bug from window, then from a user choosing window
+    void assignBugToSolver(); // prompts to choose a bug from window, then from a user choosing window
     void markBugAsSolved(); // prompts to choose a bug choosing window
     void login();
     void signUp();
 private:
-    void printBugChooser(); // TODO return type to BugPtr
-    void printUserChooser(); // TODO change return type to UserPtr
+    bugPtr printBugChooser();
+    userPtr printUserChooser();
     string requestUsername();
     string requestPassword();
 };

@@ -1,5 +1,10 @@
 #include "BugManager.hpp"
 
+BugManager::BugManager()
+{
+    Database db;
+    bugs = db.getBugVector("SELECT * FROM bugs;");
+}
 
 void BugManager::report(const Bug bug) 
 {
@@ -13,9 +18,9 @@ void BugManager::markAsSolved(const Bug& solvedBug)
             bug.markAsSolved();
 }
 
-void BugManager::assignToProgrammer(const Bug& assignedBug, const Programmer& programmer) 
+void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer)
 {
     for(Bug& bug: bugs)
-        if (bug == assignedBug)
-            bug.assign(programmer);
+        if (std::make_shared<Bug>(bug) == assignedBug)
+            bug.assign(programmer->username);
 }

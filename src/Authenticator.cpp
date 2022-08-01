@@ -13,7 +13,7 @@ Authenticator::Authenticator()
 void Authenticator::loadCredentialsFromDatabase()
 {
     Database db;
-    credentials = db.getRows("SELECT * FROM credentials;");
+    credentials = db.getCredentialsMap("SELECT * FROM credentials;");
 }
 
 bool Authenticator::login(string_view username, string_view password)

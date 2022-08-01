@@ -1,3 +1,4 @@
+#pragma once
 #include <chrono>
 #include <cstdint>
 #include <memory>
@@ -5,7 +6,7 @@
 #include "Programmer.hpp"
 
 using datetime = double;
-using userPtr = std::shared_ptr<User>;
+using std::string;
 
 struct Bug
 {
@@ -17,9 +18,9 @@ public:
     datetime assignedAt = datetimeZero,
     datetime solvedAt = datetimeZero,
 
-    userPtr reportedBy = nullptr,
-    userPtr assignedBy = nullptr,
-    userPtr assignedTo = nullptr);
+    string reportedBy = static_cast<std::string>(""),
+    string assignedBy = static_cast<std::string>(""),
+    string assignedTo = static_cast<std::string>(""));
    
     int id;
     std::string description;
@@ -27,12 +28,12 @@ public:
     datetime assignedAt;
     datetime solvedAt;
 
-    userPtr reportedBy;
-    userPtr assignedBy;
-    userPtr assignedTo;
+    string reportedBy;
+    string assignedBy;
+    string assignedTo;
 
-    void report(userPtr reportedBy);
-    void assign(Programmer programmer);
+    void report(string reportedBy);
+    void assign(string programmer);
     void markAsSolved();
 
     bool operator==(const Bug& bug);

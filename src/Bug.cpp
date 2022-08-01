@@ -1,4 +1,5 @@
 #include "Bug.hpp"
+#include <chrono>
 
 Bug::Bug(int id,
     std::string description,
@@ -6,25 +7,25 @@ Bug::Bug(int id,
     datetime assignedAt,
     datetime solvedAt,
 
-    userPtr reportedBy,
-    userPtr assignedBy,
-    userPtr assignedTo)
+    string reportedBy,
+    string assignedBy,
+    string assignedTo)
     : id(id), reportedAt(reportedAt), assignedAt(assignedAt),
       reportedBy(reportedBy), assignedBy(assignedBy), assignedTo(assignedTo)
 {
 
 }
 
-void Bug::report(userPtr reportedBy)
+void Bug::report(string reportedBy)
 {
   reportedAt = getCurrentTime();
   this->reportedBy = reportedBy;
 }
 
-void Bug::assign(Programmer programmer)
+void Bug::assign(string programmer)
 {
   assignedAt = getCurrentTime();
-  assignedTo = std::make_unique<Programmer>(programmer);
+  assignedTo = programmer;
 }
 
 void Bug::markAsSolved()
@@ -39,6 +40,6 @@ bool Bug::operator==(const Bug& bug)
 
 double Bug::getCurrentTime()
 {
-  // TODO implement this method
-  return 0;
+  const auto p1 = std::chrono::system_clock::now();
+  return std::chrono::duration_cast<std::chrono::seconds>( p1.time_since_epoch() ).count();
 }
