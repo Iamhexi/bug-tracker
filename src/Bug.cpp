@@ -43,3 +43,25 @@ double Bug::getCurrentTime()
   const auto p1 = std::chrono::system_clock::now();
   return std::chrono::duration_cast<std::chrono::seconds>( p1.time_since_epoch() ).count();
 }
+
+BugStatus Bug::getStatus()
+{
+  if (solvedAt > 0L)
+    return BugStatus::closed;
+  else if (assignedAt > 0L)
+    return BugStatus::in_progress;
+  else if (reportedAt > 0L)
+    return BugStatus::open;
+  else
+    return BugStatus::uninitialised;
+}
+
+SimplifiedBug::SimplifiedBug(
+        int id,
+        string description,
+        BugStatus status
+    ):
+  id(id), description(description), status(status)
+{
+
+}

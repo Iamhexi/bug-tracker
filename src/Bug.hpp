@@ -8,6 +8,15 @@
 using datetime = double;
 using std::string;
 
+enum class BugStatus
+{
+    uninitialised,
+    open,
+    in_progress,
+    closed,
+    all
+};
+
 struct Bug
 {
     static constexpr datetime datetimeZero = 0.L;
@@ -37,6 +46,22 @@ public:
     void markAsSolved();
 
     bool operator==(const Bug& bug);
+    BugStatus getStatus();
 private:
     double getCurrentTime();
+};
+
+
+struct SimplifiedBug
+{
+public:
+    SimplifiedBug(
+        int id = 0,
+        string description = static_cast<string>(""),
+        BugStatus status = BugStatus::uninitialised
+    );
+public:
+    int id;
+    string description;
+    BugStatus status;
 };

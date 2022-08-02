@@ -21,7 +21,8 @@ void System::assignBugToSolver()
 
 void System::markBugAsSolved() 
 {
-    printBugChooser();
+    bugPtr solvedBug = printBugChooser();
+    solvedBug->markAsSolved();
 }
 
 void System::login() 
@@ -37,7 +38,6 @@ void System::login()
     } else {
         std::cout << "Failed to sign in, incorrect credentials were given.\n";
     }
-
 }
 
 void System::signUp()
@@ -55,15 +55,17 @@ void System::signUp()
     }
 }
 
-bugPtr System::printBugChooser() 
+bugPtr System::printBugChooser(BugStatus bugStatus) 
 {
-    // TODO
-    // load all bugs from database
-    // print unassigned bugs
-    // let user choose one of them
-    // return the chosen bug
+    bugList existingBugs = bugs.getSimplifiedList(bugStatus);
+    for(auto& bug: existingBugs)
+        std::cout << bug.id << "\t" << bug.description << "\t" << "[STATUS]" << "\n";
+    
+    int choice;
+    std::cout << "Enter bug ID to choose it: ";
+    std::cin >> choice;
 
-    return std::make_shared<Bug>();
+    return bugs.find(choice);
 }
 
 userPtr System::printUserChooser() 

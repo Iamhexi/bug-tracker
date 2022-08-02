@@ -4,7 +4,8 @@
 int main()
 {
     System system;
-    system.login();
+    system.markBugAsSolved();
+
 
     return 0;
 }

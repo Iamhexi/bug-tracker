@@ -19,11 +19,11 @@ public:
 public:
     void reportBug(string_view description);
     void assignBugToSolver(); // prompts to choose a bug from window, then from a user choosing window
-    void markBugAsSolved(); // prompts to choose a bug choosing window
+    void markBugAsSolved();
     void login();
     void signUp();
 private:
-    bugPtr printBugChooser();
+    bugPtr printBugChooser(BugStatus bugStatus = BugStatus::all);
     userPtr printUserChooser();
     string requestUsername();
     string requestPassword();
