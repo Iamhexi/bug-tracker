@@ -18,4 +18,7 @@ public:
     void assignToProgrammer(bugPtr, userPtr programmer);
     bugList getSimplifiedList(BugStatus status = BugStatus::all);
     bugPtr find(int bugId);
+    ~BugManager();
+private:
+    void uploadLocalDatabaseToRemoteDatabase();
 };

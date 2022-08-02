@@ -10,7 +10,8 @@ Bug::Bug(int id,
     string reportedBy,
     string assignedBy,
     string assignedTo)
-    : id(id), reportedAt(reportedAt), assignedAt(assignedAt),
+    : id(id), description(description), reportedAt(reportedAt),
+      assignedAt(assignedAt), solvedAt(solvedAt),
       reportedBy(reportedBy), assignedBy(assignedBy), assignedTo(assignedTo)
 {
 

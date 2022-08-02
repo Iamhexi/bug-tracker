@@ -1,15 +1,26 @@
 #include "BugManager.hpp"
+#include <iostream>
 
 BugManager::BugManager()
 {
     Database db;
+    bugs.reserve(5000);
     bugs = db.getBugVector("SELECT * FROM bugs;");
 }
 
 void BugManager::report(const Bug bug) 
 {
+    Database db;
+
     bugs.push_back(bug);
-    // TODO
+
+    db.execute(
+        string("INSERT INTO bugs VALUES (NULL, '") + 
+        bug.description + "', " + std::to_string(bug.reportedAt)  + ", " +
+        std::to_string(bug.assignedAt) + ", " + std::to_string(bug.solvedAt) + ", '" +
+        bug.reportedBy + "', '" + bug.assignedBy + "', '" +
+        bug.assignedTo + "');"
+    );
 }
 
 void BugManager::markAsSolved(const Bug& solvedBug) 
@@ -46,4 +57,15 @@ bugPtr BugManager::find(int bugId)
             return std::make_shared<Bug>(bug);
     
     return std::make_shared<Bug>(Bug());
+}
+
+void BugManager::uploadLocalDatabaseToRemoteDatabase()
+{
+    // TODO: implement
+    // update every bug's row with data available in the bug vector
+}
+
+BugManager::~BugManager()
+{
+    uploadLocalDatabaseToRemoteDatabase();
 }

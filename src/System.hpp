@@ -17,7 +17,7 @@ private:
 public:
     static int bugCounter;
 public:
-    void reportBug(string_view description);
+    void reportBug();
     void assignBugToSolver(); // prompts to choose a bug from window, then from a user choosing window
     void markBugAsSolved();
     void login();

@@ -7,9 +7,21 @@ using std::cin, std::string, std::cout;
 
 int System::bugCounter = 0;
 
-void System::reportBug(string_view description)
+void System::reportBug()
 {
-    bugs.report( Bug( bugCounter++, string(description), 0, 0, 0, 0, currentUser->username ) );
+    constexpr size_t maxDecriptionSize = 5000;
+    constexpr char delimiter = '#';
+
+    char descriptionLine[maxDecriptionSize];
+
+    std::cout << "Describe the bug (use " << delimiter << " at the end): ";
+    std::cin.getline(descriptionLine, maxDecriptionSize, delimiter);
+    string description = string(descriptionLine);
+    description = description.substr(1, description.size()-1); // remove first-character endline
+
+    Bug bug(0, description);
+    bug.report(currentUser->username);
+    bugs.report(bug);
 }
 
 void System::assignBugToSolver() 
@@ -27,16 +39,19 @@ void System::markBugAsSolved()
 
 void System::login() 
 {
-    string username = requestUsername();
-    string password = requestPassword();
-    Authenticator auth;
-    
-    if (auth.login(username, password)) {
-        // TODO : using out of scope shared pointer causes segmentation fault!
-        currentUser = std::make_shared<User>( User(username) );
-        std::cout << "Successfully signed in.\n";
-    } else {
-        std::cout << "Failed to sign in, incorrect credentials were given.\n";
+    while (true)
+    {
+        string username = requestUsername();
+        string password = requestPassword();
+        Authenticator auth;
+        
+        if (auth.login(username, password)) {
+            currentUser = std::make_shared<User>( User(username) );
+            std::cout << "Successfully signed in.\n";
+            break;
+        } else {
+            std::cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
+        }
     }
 }
 
@@ -47,7 +62,6 @@ void System::signUp()
     Authenticator auth;
     
     if (auth.signUp(username, password)) {
-        // TODO : using out of scope shared pointer causes segmentation fault!
         currentUser = std::make_shared<User>( User(username) );
         std::cout << "Successfully registered.\n";
     } else {
