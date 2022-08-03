@@ -1,15 +1,14 @@
 #pragma once
 #include <string>
 #include <string_view>
-
-using std::string, std::string_view;
+#include <iostream>
 
 class User
 {
 public:
-    string username;
+    std::string username;
 
-    User(string_view username)
+    User(std::string_view username)
     {
         this->username = username;
     }

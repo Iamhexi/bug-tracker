@@ -13,7 +13,7 @@ Authenticator::Authenticator()
 void Authenticator::loadCredentialsFromDatabase()
 {
     Database db;
-    credentials = db.getCredentialsMap("SELECT * FROM credentials;");
+    credentials = db.getCredentialsMap("SELECT login, hash FROM credentials;");
 }
 
 bool Authenticator::login(string_view username, string_view password)
@@ -29,6 +29,9 @@ bool Authenticator::signUp(string_view username, string_view password)
 {
     Database db;
     string hashedPassword = std::to_string( hash(password) );
-    return db.execute(string("INSERT INTO credentials VALUES ('") + string(username) + "', '" + hashedPassword + "');");
+    UserRole defaultRole = UserRole::Manager;
+
+    return db.execute(string("INSERT INTO credentials VALUES ('") + string(username) + "', '" 
+    + hashedPassword + "', " + std::to_string(static_cast<int>(defaultRole)) + ");");
 }
 

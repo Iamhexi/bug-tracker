@@ -82,9 +82,11 @@ bugPtr System::printBugChooser(BugStatus bugStatus)
     return bugs.find(choice);
 }
 
-userPtr System::printUserChooser() 
+userPtr System::printUserChooser(UserRole role) 
 {
-    // TODO
+    // TODO 
+    UserManager userManager;
+    usersSummary allUsers = userManager.getUsersSummary(role);
     // load all users from database
     // print all users
     // let user choose one of them

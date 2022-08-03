@@ -4,6 +4,8 @@
 #include <string>
 #include <string_view>
 #include <sqlite3.h>
+#include "UserRole.hpp"
+#include "UserManager.hpp"
 #include "Bug.hpp"
 
 using std::string, std::string_view;
@@ -18,18 +20,21 @@ private:
 
     static row retrievedRecords;
     static bugVector retrievedBugs;
+    static usersSummary retrievedUsers;
 public: 
     Database();
     ~Database();
     bool execute(string_view sql);
     row getCredentialsMap(string_view sql);
     bugVector getBugVector(string_view sql);
+    usersSummary getUsersSummary(string_view sql);
+
 
 private:
     static int getRowsCallback(void* data, int argc, char** argv, char** azColName);
-    static int executeCallback(void* data, int argc, char** argv, char** azColName);
+    static int emptyCallback(void* data, int argc, char** argv, char** azColName);
     static int bugCallback(void* data, int argc, char** argv, char** azColName);
-
+    static int userSummaryCallback(void* data, int argc, char** argv, char** azColName);
 };
 
 struct DatabaseException : public std::exception {

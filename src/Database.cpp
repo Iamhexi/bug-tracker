@@ -8,6 +8,8 @@
 
 row Database::retrievedRecords;
 bugVector Database::retrievedBugs;
+usersSummary Database::retrievedUsers;
+;
 
 Database::Database() 
 {
@@ -26,7 +28,15 @@ bool Database::execute(string_view sql)
 {
     string query = string(sql);
     string data("CALLBACK FUNCTION");
-    return !sqlite3_exec(db, query.c_str(), executeCallback, (void*)data.c_str(), NULL);
+    return !sqlite3_exec(db, query.c_str(), emptyCallback, (void*)data.c_str(), NULL);
+}
+
+usersSummary Database::getUsersSummary(string_view sql)
+{
+    string query = string(sql);
+    string data("CALLBACK FUNCTION");
+    int rc = sqlite3_exec(db, query.c_str(), userSummaryCallback, (void*)data.c_str(), NULL);
+    return retrievedUsers;
 }
 
 row Database::getCredentialsMap(string_view sql) 
@@ -34,6 +44,7 @@ row Database::getCredentialsMap(string_view sql)
     string query = string(sql);
     string data("CALLBACK FUNCTION");
     int rc = sqlite3_exec(db, query.c_str(), getRowsCallback, (void*)data.c_str(), NULL);
+
     return retrievedRecords;
 }
 
@@ -45,11 +56,26 @@ bugVector Database::getBugVector(string_view sql)
     return retrievedBugs;
 }
 
+int Database::userSummaryCallback(void* data, int argc, char** argv, char** azColName)
+{
+    usersSummary summary;
+    constexpr unsigned int columnsPerUserInTable = 3;
+    for (int i = 0; i < argc; i += columnsPerUserInTable) 
+    {
+        string username = string(argv[i]);
+        UserRole role = static_cast<UserRole>( std::stoi( string(argv[i+2]) ) );
+
+        summary.insert( std::pair<string, UserRole>(username, role) );
+    }
+    retrievedUsers = summary;
+}
+
+
 int Database::bugCallback(void* data, int argc, char** argv, char** azColName)
 {
     bugVector bugs;
     constexpr unsigned int columnsPerUserInTable = 8;
-    for (unsigned int i = 0; i < argc; i += columnsPerUserInTable) 
+    for (int i = 0; i < argc; i += columnsPerUserInTable) 
     {
         int id = std::stoi( string(argv[i]) );
         string description = string(argv[i+1]);
@@ -73,7 +99,7 @@ int Database::bugCallback(void* data, int argc, char** argv, char** azColName)
     return 0;
 }
 
-int Database::executeCallback(void* data, int argc, char** argv, char** azColName)
+int Database::emptyCallback(void* data, int argc, char** argv, char** azColName)
 {
     return 0;
 }
@@ -82,7 +108,7 @@ int Database::getRowsCallback(void* data, int argc, char** argv, char** azColNam
 {
     row credentials;
     for (int i = 0; i < argc; i += 2) 
-        credentials.insert( std::pair<string, string>(argv[i], string(argv[i+1]) ) );
+        credentials.insert( std::pair<string, string>(argv[i], argv[i+1] ) );
     
     // azColName[i] - a column name
     // argv[i] - a value of the record for this column

@@ -24,7 +24,7 @@ public:
     void signUp();
 private:
     bugPtr printBugChooser(BugStatus bugStatus = BugStatus::all);
-    userPtr printUserChooser();
+    userPtr printUserChooser(UserRole role = UserRole::All);
     string requestUsername();
     string requestPassword();
 };

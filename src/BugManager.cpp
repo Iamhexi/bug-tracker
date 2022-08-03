@@ -1,5 +1,6 @@
 #include "BugManager.hpp"
 #include <iostream>
+#include <fmt/core.h>
 
 BugManager::BugManager()
 {
@@ -61,8 +62,21 @@ bugPtr BugManager::find(int bugId)
 
 void BugManager::uploadLocalDatabaseToRemoteDatabase()
 {
-    // TODO: implement
-    // update every bug's row with data available in the bug vector
+    // TODO: fix me
+    // data takes brom bug& isn't marked as solved when it was marked as solved by system
+    // e.g. bug.solvedAt == 0 after shared_ptr to bug -> markAsSolved()
+
+    Database db;
+    for(auto& bug: bugs)
+    {
+        string sql = fmt::format(
+            "UPDATE bugs SET assignedAt = {0}, solvedAt = {1}, assignedBy = '{2}', assignedTo = '{3}' WHERE id = {4};",
+            bug.assignedAt, bug.solvedAt, bug.assignedBy, bug.assignedTo, bug.id
+        );
+
+        db.execute(sql);
+
+    }
 }
 
 BugManager::~BugManager()

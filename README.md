@@ -2,4 +2,6 @@
 
 ## Requirements
 - cmake
-- sqlite3
+- sqlite3 library
+- fmt library
+- gtest unit test framework
