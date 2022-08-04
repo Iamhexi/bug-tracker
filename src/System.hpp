@@ -23,7 +23,7 @@ public:
     void login();
     void signUp();
     void printBugs(BugStatus status);
-    bool isSignedIn() const;
+    bool isUserSignedIn() const;
 private:
     bugPtr printBugChooser(BugStatus bugStatus = BugStatus::All);
     userPtr printUserChooser(UserRole role = UserRole::All);

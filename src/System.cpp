@@ -41,19 +41,16 @@ void System::markBugAsSolved()
 
 void System::login() 
 {
-    while (true)
-    {
-        string username = requestUsername();
-        string password = requestPassword();
-        Authenticator auth;
-        
-        if (auth.login(username, password)) {
-            currentUser = std::make_shared<User>( User(username) );
-            cout << "Successfully signed in.\n";
-            break;
-        } else {
-            cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
-        }
+    string username = requestUsername();
+    string password = requestPassword();
+    Authenticator auth;
+    
+    if (auth.login(username, password)) {
+        currentUser = std::make_shared<User>( User(username) );
+        cout << "Successfully signed in.\n";
+        return;
+    } else {
+        cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
     }
 }
 
@@ -127,7 +124,7 @@ string System::requestPassword()
     return string(password);
 }
 
-bool System::isSignedIn() const
+bool System::isUserSignedIn() const
 {
     return currentUser != nullptr;
 }
