@@ -46,12 +46,24 @@ void BugManager::markAsSolved(const Bug& solvedBug)
 
 void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer, string managerUsername)
 {
+    std::cout << "Number of bugs: " << bugs.size() << "\n";
+
     for(Bug& bug: bugs)
-        if (bug == *assignedBug)
-        {
-            bug.assign(programmer->username, managerUsername);
-            return;
+    {
+        if (bug == *assignedBug) {
+            if (bug.getStatus() == BugStatus::open) {
+                std::cout << "The task with ID " << bug.id << " has been assigned to " << programmer->username << "\n";
+                bug.assign(programmer->username, managerUsername);
+                return;
+            } else if (bug.getStatus() == BugStatus::in_progress) {
+                std::cout << "The task with ID " << bug.id << " has been REASSIGNED to " << programmer->username << "\n";
+                bug.assign(programmer->username, managerUsername);
+                return;
+            }
+
         }
+
+    }
 
         std::cout << "No user has been assigned although assignToProgrammer() had been invoked\n";
 }
@@ -83,6 +95,8 @@ void BugManager::uploadLocalDatabaseToRemoteDatabase()
     Database db;
     for(auto& bug: bugs)
     {
+        std::cout << bug.id << "\t" << bug.assignedBy << "\t" << bug.assignedTo << "\n";
+
         string sql = fmt::format(
             "UPDATE bugs SET assignedAt = {0}, solvedAt = {1}, assignedBy = '{2}', assignedTo = '{3}' WHERE id = {4};",
             bug.assignedAt, bug.solvedAt, bug.assignedBy, bug.assignedTo, bug.id
@@ -92,6 +106,9 @@ void BugManager::uploadLocalDatabaseToRemoteDatabase()
 
         if (db.execute(sql))
             std::cout << "UPDATED!\n";
+        else {
+            std::cout << "Unable to upload the local db to the remote db.\n";
+        }
 
     }
 }

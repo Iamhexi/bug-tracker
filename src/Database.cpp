@@ -91,8 +91,8 @@ int Database::bugCallback(void* data, int argc, char** argv, char** azColName)
         string reportedBy = string(argv[i+5]);
         string assignedBy = string(argv[i+6]);
         string assignedTo = string(argv[i+7]);
-
-        Bug bug(id, description, reportedAt, assignedAt, solvedAt);
+        
+        Bug bug(id, description, reportedAt, assignedAt, solvedAt, reportedBy, assignedBy, assignedTo);
         bugs.push_back(bug);
     }
     

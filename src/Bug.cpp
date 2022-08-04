@@ -25,9 +25,9 @@ void Bug::report(string reportedBy)
 
 void Bug::assign(string programmer, string manager)
 {
-  assignedAt = getCurrentTime();
-  assignedTo = programmer;
   assignedBy = manager;
+  assignedTo = programmer;
+  assignedAt = getCurrentTime();
 }
 
 void Bug::markAsSolved()

@@ -26,8 +26,8 @@ void System::reportBug()
 
 void System::assignBugToSolver() 
 {
-    bugPtr bug = printBugChooser();
-    userPtr user = printUserChooser();
+    bugPtr bug = printBugChooser(BugStatus::open);
+    userPtr user = printUserChooser(UserRole::Programmer);
     bugs.assignToProgrammer(bug, user, currentUser->username);
 
     
@@ -35,7 +35,7 @@ void System::assignBugToSolver()
 
 void System::markBugAsSolved() 
 {
-    bugPtr solvedBug = printBugChooser();
+    bugPtr solvedBug = printBugChooser(BugStatus::in_progress);
     bugs.markAsSolved(*solvedBug);
 
     solvedBug->markAsSolved();
@@ -103,12 +103,6 @@ userPtr System::printUserChooser(UserRole role)
     std::cin >> choice;
 
     return userManager.find(choice);
-
-    // load all users from database
-    // print all users
-    // let user choose one of them
-    // return the chosen user
-    return std::make_shared<User>("EMPTY USER");
 }
 
 string System::requestUsername()

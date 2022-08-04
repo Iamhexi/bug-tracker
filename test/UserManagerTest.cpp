@@ -23,6 +23,7 @@ TEST(UserManagerTest, TestModyfingUser)
 
     user->username = "nono";
 
+    // the second expression creates a new user
     ASSERT_EQ(u.find("nono"), std::make_shared<User>("nono"));
 }
 

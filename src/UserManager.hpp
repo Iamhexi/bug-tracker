@@ -13,7 +13,7 @@ using userPtr = std::shared_ptr<User>;
 class UserManager
 {
 private:
-    std::vector<User> users;
+    usersSummary users;
 public:
     UserManager();
     usersSummary getUsersSummary(UserRole role = UserRole::All);
