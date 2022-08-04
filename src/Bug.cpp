@@ -49,13 +49,13 @@ double Bug::getCurrentTime()
 BugStatus Bug::getStatus()
 {
   if (solvedAt > 0L)
-    return BugStatus::closed;
+    return BugStatus::Closed;
   else if (assignedAt > 0L)
-    return BugStatus::in_progress;
+    return BugStatus::In_progress;
   else if (reportedAt > 0L)
-    return BugStatus::open;
+    return BugStatus::Open;
   else
-    return BugStatus::uninitialised;
+    return BugStatus::Uninitialised;
 }
 
 SimplifiedBug::SimplifiedBug(
@@ -66,4 +66,34 @@ SimplifiedBug::SimplifiedBug(
   id(id), description(description), status(status)
 {
 
+}
+
+std::string convertBugStatusToString(BugStatus role)
+{
+    switch (role)
+    {
+    case BugStatus::Uninitialised:
+        return "Uninitialised";
+        break;
+
+    case BugStatus::Open:
+        return "Open";
+        break;
+
+    case BugStatus::In_progress:
+        return "In progress";
+        break;
+
+    case BugStatus::Closed:
+        return "Closed";
+        break;
+
+    case BugStatus::All:
+        return "All bugs statuses";
+        break;
+    
+    default:
+        return "Unknown status";
+        break;
+    }
 }

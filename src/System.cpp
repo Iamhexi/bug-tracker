@@ -5,8 +5,6 @@
 
 using std::cin, std::string, std::cout;
 
-int System::bugCounter = 0;
-
 void System::reportBug()
 {
     constexpr size_t maxDecriptionSize = 5000;
@@ -14,8 +12,8 @@ void System::reportBug()
 
     char descriptionLine[maxDecriptionSize];
 
-    std::cout << "Describe the bug (use " << delimiter << " at the end): ";
-    std::cin.getline(descriptionLine, maxDecriptionSize, delimiter);
+    cout<< "Describe the bug (use " << delimiter << " at the end): ";
+    cin.getline(descriptionLine, maxDecriptionSize, delimiter);
     string description = string(descriptionLine);
     description = description.substr(1, description.size()-1); // remove first-character endline
 
@@ -26,7 +24,7 @@ void System::reportBug()
 
 void System::assignBugToSolver() 
 {
-    bugPtr bug = printBugChooser(BugStatus::open);
+    bugPtr bug = printBugChooser(BugStatus::Open);
     userPtr user = printUserChooser(UserRole::Programmer);
     bugs.assignToProgrammer(bug, user, currentUser->username);
 
@@ -35,7 +33,7 @@ void System::assignBugToSolver()
 
 void System::markBugAsSolved() 
 {
-    bugPtr solvedBug = printBugChooser(BugStatus::in_progress);
+    bugPtr solvedBug = printBugChooser(BugStatus::In_progress);
     bugs.markAsSolved(*solvedBug);
 
     solvedBug->markAsSolved();
@@ -51,10 +49,10 @@ void System::login()
         
         if (auth.login(username, password)) {
             currentUser = std::make_shared<User>( User(username) );
-            std::cout << "Successfully signed in.\n";
+            cout << "Successfully signed in.\n";
             break;
         } else {
-            std::cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
+            cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
         }
     }
 }
@@ -67,9 +65,9 @@ void System::signUp()
     
     if (auth.signUp(username, password)) {
         currentUser = std::make_shared<User>( User(username) );
-        std::cout << "Successfully registered.\n";
+        cout << "Successfully registered.\n";
     } else {
-        std::cout << "Failed to register, a user with the given username already exists.\n";
+        cout << "Failed to register, a user with the given username already exists.\n";
     }
 }
 
@@ -77,15 +75,24 @@ bugPtr System::printBugChooser(BugStatus bugStatus)
 {
     bugList existingBugs = bugs.getSimplifiedList(bugStatus);
 
-    std::cout << "ID\tDescription\tStatus\n";
+    cout << "ID\tDescription\tStatus\n";
     for(auto& bug: existingBugs)
-        std::cout << bug.id << "\t" << bug.description << "\t" << "[STATUS]" << "\n";
+        cout << bug.id << "\t" << bug.description << "\t" << convertBugStatusToString(bug.status) << "\n";
     
     int choice;
-    std::cout << "Enter bug ID to choose it: ";
-    std::cin >> choice;
+    cout << "Enter bug ID to choose it: ";
+    cin >> choice;
 
     return bugs.find(choice);
+}
+
+void System::printBugs(BugStatus status)
+{
+    bugList existingBugs = bugs.getSimplifiedList(status);
+    cout << "ID\tDescription\t";
+    for(auto& bug: existingBugs)
+        cout << bug.id << "\t" << bug.description << "\n";
+    cout << '\n';
 }
 
 userPtr System::printUserChooser(UserRole role) 
@@ -94,13 +101,13 @@ userPtr System::printUserChooser(UserRole role)
     UserManager userManager;
     usersSummary allUsers = userManager.getUsersSummary(role);
 
-    std::cout << "Username\tRole\n";
+    cout << "Username\tRole\n";
     for(auto& userSummary: allUsers)
-        std::cout << userSummary.first << "\t" << (int) userSummary.second << "\n";
+        cout << userSummary.first << "\t" << convertUserRoleToString(userSummary.second) << "\n";
 
     string choice;
-    std::cout << "Enter username to choose them: ";
-    std::cin >> choice;
+    cout << "Enter username to choose them: ";
+    cin >> choice;
 
     return userManager.find(choice);
 }
@@ -120,3 +127,7 @@ string System::requestPassword()
     return string(password);
 }
 
+bool System::isSignedIn() const
+{
+    return currentUser != nullptr;
+}

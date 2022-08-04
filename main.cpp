@@ -18,6 +18,9 @@ int main()
         std::cout << "3. - report a new bug\n";
         std::cout << "4. - assign a solver for a bug\n";
         std::cout << "5. - mark bug as solved\n";
+        std::cout << "6. - show open bugs\n";
+        std::cout << "7. - show bugs which are being solved\n";
+        std::cout << "8. - show closed bugs\n";
         std::cout << "0. - exit\n";
         
         std::cout << "Your choice: ";
@@ -43,6 +46,18 @@ int main()
 
         case 5:
             system.markBugAsSolved();
+            break;
+
+        case 6:
+            system.printBugs(BugStatus::Open);
+            break;
+
+        case 7:
+            system.printBugs(BugStatus::In_progress);
+            break;
+
+        case 8:
+            system.printBugs(BugStatus::Closed);
             break;
 
         case 0:

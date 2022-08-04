@@ -17,7 +17,7 @@ public:
     void report(const Bug bug);
     void markAsSolved(const Bug& assignedBug);
     void assignToProgrammer(bugPtr assignedBug, userPtr programmer, string managerUsername);
-    bugList getSimplifiedList(BugStatus status = BugStatus::all);
+    bugList getSimplifiedList(BugStatus status = BugStatus::All);
     bugPtr find(int bugId);
     ~BugManager();
 

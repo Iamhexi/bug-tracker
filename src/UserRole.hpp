@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class UserRole
 {
@@ -8,3 +9,5 @@ enum class UserRole
     Programmer = 2,
     Tester = 3
 };
+
+std::string convertUserRoleToString(UserRole role);

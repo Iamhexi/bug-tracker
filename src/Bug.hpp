@@ -10,11 +10,11 @@ using std::string;
 
 enum class BugStatus
 {
-    uninitialised,
-    open,
-    in_progress,
-    closed,
-    all
+    Uninitialised,
+    Open,
+    In_progress,
+    Closed,
+    All
 };
 
 struct Bug
@@ -58,10 +58,12 @@ public:
     SimplifiedBug(
         int id = 0,
         string description = static_cast<string>(""),
-        BugStatus status = BugStatus::uninitialised
+        BugStatus status = BugStatus::Uninitialised
     );
 public:
     int id;
     string description;
     BugStatus status;
 };
+
+std::string convertBugStatusToString(BugStatus role);

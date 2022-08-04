@@ -7,7 +7,7 @@ TEST(BugTest, TestMarkingBugAsSolved)
 
     bug.markAsSolved();
 
-    ASSERT_EQ(BugStatus::closed, bug.getStatus());
+    ASSERT_EQ(BugStatus::Closed, bug.getStatus());
 }
 
 TEST(BugTest, TestReportingBug)
@@ -16,7 +16,7 @@ TEST(BugTest, TestReportingBug)
     
     bug.report("Username");
     
-    ASSERT_EQ(BugStatus::open, bug.getStatus());
+    ASSERT_EQ(BugStatus::Open, bug.getStatus());
 }
 
 TEST(BugTest, TestAssigningBug)
@@ -25,7 +25,7 @@ TEST(BugTest, TestAssigningBug)
 
     bug.assign("Username", "Username2");
 
-    ASSERT_EQ(BugStatus::in_progress, bug.getStatus());
+    ASSERT_EQ(BugStatus::In_progress, bug.getStatus());
 
 }
 

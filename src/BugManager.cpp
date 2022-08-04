@@ -51,11 +51,11 @@ void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer, stri
     for(Bug& bug: bugs)
     {
         if (bug == *assignedBug) {
-            if (bug.getStatus() == BugStatus::open) {
+            if (bug.getStatus() == BugStatus::Open) {
                 std::cout << "The task with ID " << bug.id << " has been assigned to " << programmer->username << "\n";
                 bug.assign(programmer->username, managerUsername);
                 return;
-            } else if (bug.getStatus() == BugStatus::in_progress) {
+            } else if (bug.getStatus() == BugStatus::In_progress) {
                 std::cout << "The task with ID " << bug.id << " has been REASSIGNED to " << programmer->username << "\n";
                 bug.assign(programmer->username, managerUsername);
                 return;
@@ -73,7 +73,7 @@ bugList BugManager::getSimplifiedList(BugStatus status)
     bugList list;
     for(auto& bug: bugs)
     {
-        if (bug.getStatus() == status || status == BugStatus::all) {
+        if (bug.getStatus() == status || status == BugStatus::All) {
             list.emplace_back(bug.id, bug.description, bug.getStatus());
         }
     }
