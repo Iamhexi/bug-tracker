@@ -28,12 +28,16 @@ void System::assignBugToSolver()
 {
     bugPtr bug = printBugChooser();
     userPtr user = printUserChooser();
-    bugs.assignToProgrammer(bug, user);
+    bugs.assignToProgrammer(bug, user, currentUser->username);
+
+    
 }
 
 void System::markBugAsSolved() 
 {
     bugPtr solvedBug = printBugChooser();
+    bugs.markAsSolved(*solvedBug);
+
     solvedBug->markAsSolved();
 }
 
@@ -72,6 +76,8 @@ void System::signUp()
 bugPtr System::printBugChooser(BugStatus bugStatus) 
 {
     bugList existingBugs = bugs.getSimplifiedList(bugStatus);
+
+    std::cout << "ID\tDescription\tStatus\n";
     for(auto& bug: existingBugs)
         std::cout << bug.id << "\t" << bug.description << "\t" << "[STATUS]" << "\n";
     
@@ -87,6 +93,17 @@ userPtr System::printUserChooser(UserRole role)
     // TODO 
     UserManager userManager;
     usersSummary allUsers = userManager.getUsersSummary(role);
+
+    std::cout << "Username\tRole\n";
+    for(auto& userSummary: allUsers)
+        std::cout << userSummary.first << "\t" << (int) userSummary.second << "\n";
+
+    string choice;
+    std::cout << "Enter username to choose them: ";
+    std::cin >> choice;
+
+    return userManager.find(choice);
+
     // load all users from database
     // print all users
     // let user choose one of them
@@ -108,3 +125,4 @@ string System::requestPassword()
     password = getpass("Password: ");
     return string(password);
 }
+

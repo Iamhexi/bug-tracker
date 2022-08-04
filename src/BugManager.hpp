@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include "Programmer.hpp"
 #include "Bug.hpp"
@@ -15,10 +16,11 @@ public:
     BugManager();
     void report(const Bug bug);
     void markAsSolved(const Bug& assignedBug);
-    void assignToProgrammer(bugPtr, userPtr programmer);
+    void assignToProgrammer(bugPtr assignedBug, userPtr programmer, string managerUsername);
     bugList getSimplifiedList(BugStatus status = BugStatus::all);
     bugPtr find(int bugId);
     ~BugManager();
+
 private:
     void uploadLocalDatabaseToRemoteDatabase();
 };

@@ -5,7 +5,7 @@ TEST(SignInTest, SigingInAsRegisteredUser)
 {
     Authenticator auth;
 
-    bool success = auth.login("jan", "123");
+    bool success = auth.login("igor", "123");
 
     ASSERT_TRUE(success);
 }

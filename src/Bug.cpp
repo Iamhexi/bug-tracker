@@ -23,10 +23,11 @@ void Bug::report(string reportedBy)
   this->reportedBy = reportedBy;
 }
 
-void Bug::assign(string programmer)
+void Bug::assign(string programmer, string manager)
 {
   assignedAt = getCurrentTime();
   assignedTo = programmer;
+  assignedBy = manager;
 }
 
 void Bug::markAsSolved()

@@ -5,7 +5,6 @@
 BugManager::BugManager()
 {
     Database db;
-    bugs.reserve(5000);
     bugs = db.getBugVector("SELECT * FROM bugs;");
 }
 
@@ -15,27 +14,46 @@ void BugManager::report(const Bug bug)
 
     bugs.push_back(bug);
 
-    db.execute(
-        string("INSERT INTO bugs VALUES (NULL, '") + 
-        bug.description + "', " + std::to_string(bug.reportedAt)  + ", " +
-        std::to_string(bug.assignedAt) + ", " + std::to_string(bug.solvedAt) + ", '" +
-        bug.reportedBy + "', '" + bug.assignedBy + "', '" +
-        bug.assignedTo + "');"
-    );
+    db.execute( fmt::format(
+        "INSERT INTO bugs VALUES (NULL, '{0}', {1}, {2}, {3}, '{4}', '{5}', '{6}');",
+        bug.description, bug.reportedAt, bug.assignedAt, bug.solvedAt,
+        bug.reportedBy, bug.assignedBy, bug.assignedTo
+    ) );
 }
 
 void BugManager::markAsSolved(const Bug& solvedBug) 
 {
+
+    std::cout << "size of bugs vector " << bugs.size() << "\n";
     for(Bug& bug: bugs)
+    {
         if (bug == solvedBug)
+        {
+            Database db;
             bug.markAsSolved();
+            std::cout << "Bug with id = " << bug.id << " marked as solved.\n";
+            string sql = fmt::format(
+                "UPDATE bugs SET solvedAt = {0} WHERE id = {1};",
+                bug.solvedAt, bug.id
+            );
+            db.execute(sql);
+            return;
+        }
+    }
+    std::cout << "No bug has been marked as solved although markAsSolved() method had been invoked\n";
+
 }
 
-void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer)
+void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer, string managerUsername)
 {
     for(Bug& bug: bugs)
-        if (std::make_shared<Bug>(bug) == assignedBug)
-            bug.assign(programmer->username);
+        if (bug == *assignedBug)
+        {
+            bug.assign(programmer->username, managerUsername);
+            return;
+        }
+
+        std::cout << "No user has been assigned although assignToProgrammer() had been invoked\n";
 }
 
 bugList BugManager::getSimplifiedList(BugStatus status)
@@ -62,10 +80,6 @@ bugPtr BugManager::find(int bugId)
 
 void BugManager::uploadLocalDatabaseToRemoteDatabase()
 {
-    // TODO: fix me
-    // data takes brom bug& isn't marked as solved when it was marked as solved by system
-    // e.g. bug.solvedAt == 0 after shared_ptr to bug -> markAsSolved()
-
     Database db;
     for(auto& bug: bugs)
     {
@@ -74,7 +88,10 @@ void BugManager::uploadLocalDatabaseToRemoteDatabase()
             bug.assignedAt, bug.solvedAt, bug.assignedBy, bug.assignedTo, bug.id
         );
 
-        db.execute(sql);
+        std::cout << sql << "\n";
+
+        if (db.execute(sql))
+            std::cout << "UPDATED!\n";
 
     }
 }

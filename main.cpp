@@ -3,6 +3,11 @@
 int main()
 {
 
+    /* 
+    1) options 4. and 5. don't work
+    2) UserManager.getUsersSummary returns incomplete list
+    */
+
     System system;
     int choice;
 
@@ -10,6 +15,9 @@ int main()
         std::cout << "Menu:\n";
         std::cout << "1. - login\n";
         std::cout << "2. - registration\n";
+        std::cout << "3. - report a new bug\n";
+        std::cout << "4. - assign a solver for a bug\n";
+        std::cout << "5. - mark bug as solved\n";
         std::cout << "0. - exit\n";
         
         std::cout << "Your choice: ";
@@ -26,6 +34,14 @@ int main()
             break;
 
         case 3:
+            system.reportBug();
+            break;
+
+        case 4:
+            system.assignBugToSolver();
+            break;
+
+        case 5:
             system.markBugAsSolved();
             break;
 

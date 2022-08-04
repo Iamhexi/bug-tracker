@@ -12,4 +12,9 @@ public:
     {
         this->username = username;
     }
+
+    bool operator==(const User& user)
+    {
+        return user.username == username;
+    }
 };

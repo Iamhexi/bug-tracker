@@ -6,8 +6,9 @@
 #include <sqlite3.h>
 #include "UserRole.hpp"
 #include "UserManager.hpp"
-#include "Bug.hpp"
+#include "BugManager.hpp"
 
+using usersSummary = std::map<std::string, UserRole>;
 using std::string, std::string_view;
 using row = std::map<string, string>;
 using bugVector = std::vector<Bug>;

@@ -42,7 +42,7 @@ public:
     string assignedTo;
 
     void report(string reportedBy);
-    void assign(string programmer);
+    void assign(string programmer, string manager);
     void markAsSolved();
 
     bool operator==(const Bug& bug);

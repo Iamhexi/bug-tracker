@@ -23,7 +23,7 @@ TEST(BugTest, TestAssigningBug)
 {
     Bug bug;
 
-    bug.assign("Username");
+    bug.assign("Username", "Username2");
 
     ASSERT_EQ(BugStatus::in_progress, bug.getStatus());
 

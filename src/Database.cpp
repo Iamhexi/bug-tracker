@@ -9,7 +9,6 @@
 row Database::retrievedRecords;
 bugVector Database::retrievedBugs;
 usersSummary Database::retrievedUsers;
-;
 
 Database::Database() 
 {
@@ -36,6 +35,9 @@ usersSummary Database::getUsersSummary(string_view sql)
     string query = string(sql);
     string data("CALLBACK FUNCTION");
     int rc = sqlite3_exec(db, query.c_str(), userSummaryCallback, (void*)data.c_str(), NULL);
+
+    std::cout << "RESPONCE FROM DB " << sqlite3_errmsg(db) << "\n";
+
     return retrievedUsers;
 }
 
@@ -59,15 +61,17 @@ bugVector Database::getBugVector(string_view sql)
 int Database::userSummaryCallback(void* data, int argc, char** argv, char** azColName)
 {
     usersSummary summary;
-    constexpr unsigned int columnsPerUserInTable = 3;
+    constexpr unsigned int columnsPerUserInTable = 2;
     for (int i = 0; i < argc; i += columnsPerUserInTable) 
     {
         string username = string(argv[i]);
-        UserRole role = static_cast<UserRole>( std::stoi( string(argv[i+2]) ) );
+        UserRole role = static_cast<UserRole>( std::stoi( string(argv[i+1]) ) );
 
         summary.insert( std::pair<string, UserRole>(username, role) );
     }
-    retrievedUsers = summary;
+
+    retrievedUsers.insert(summary.begin(), summary.end());
+    return 0;
 }
 
 
@@ -95,7 +99,7 @@ int Database::bugCallback(void* data, int argc, char** argv, char** azColName)
     // azColName[i] - a column name
     // argv[i] - a value of the record for this column
     
-    retrievedBugs = bugs;  
+    retrievedBugs.insert(retrievedBugs.end(), bugs.begin(), bugs.end());
     return 0;
 }
 
@@ -110,10 +114,7 @@ int Database::getRowsCallback(void* data, int argc, char** argv, char** azColNam
     for (int i = 0; i < argc; i += 2) 
         credentials.insert( std::pair<string, string>(argv[i], argv[i+1] ) );
     
-    // azColName[i] - a column name
-    // argv[i] - a value of the record for this column
-    
-    retrievedRecords = credentials;  
+    retrievedRecords.insert(credentials.begin(), credentials.end());
     return 0;
 }
 
