@@ -3,7 +3,7 @@
 
 void Menu::init()
 {
-    showInitialPanel();
+    authorise();
     showGodModeMenu();
 }
 
@@ -124,7 +124,7 @@ void Menu::showGodModeMenu()
     } while(choice != 0);
 }
 
-void Menu::showInitialPanel()
+void Menu::authorise()
 {
     int choice; 
     do {

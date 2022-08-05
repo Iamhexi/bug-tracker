@@ -16,7 +16,7 @@ using bugVector = std::vector<Bug>;
 class Database 
 {
 private:
-    string databaseSourceFile = string("../db/credentials.db");
+    static constexpr string_view databaseSourceFile {"../db/credentials.db"};
     sqlite3* db;
 
     static row retrievedRecords;

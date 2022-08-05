@@ -1,6 +1,7 @@
 #include "BugManager.hpp"
 #include <iostream>
 #include <fmt/core.h>
+#include "BugNullObject.hpp"
 
 BugManager::BugManager()
 {
@@ -8,9 +9,11 @@ BugManager::BugManager()
     bugs = db.getBugVector("SELECT * FROM bugs;");
 }
 
-void BugManager::report(const Bug bug) 
+void BugManager::report(Bug& bug)
 {
     Database db;
+
+    bug.report(bug.reportedBy); // assign time
 
     bugs.push_back(bug);
 
@@ -23,15 +26,12 @@ void BugManager::report(const Bug bug)
 
 void BugManager::markAsSolved(const Bug& solvedBug) 
 {
-
-    std::cout << "size of bugs vector " << bugs.size() << "\n";
     for(Bug& bug: bugs)
     {
         if (bug == solvedBug)
         {
             Database db;
             bug.markAsSolved();
-            std::cout << "Bug with id = " << bug.id << " marked as solved.\n";
             string sql = fmt::format(
                 "UPDATE bugs SET solvedAt = {0} WHERE id = {1};",
                 bug.solvedAt, bug.id
@@ -44,13 +44,11 @@ void BugManager::markAsSolved(const Bug& solvedBug)
 
 }
 
-void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer, string managerUsername)
+void BugManager::assignToProgrammer(Bug& assignedBug, userPtr programmer, string managerUsername)
 {
-    std::cout << "Number of bugs: " << bugs.size() << "\n";
-
     for(Bug& bug: bugs)
     {
-        if (bug == *assignedBug) {
+        if (bug == assignedBug) {
             if (bug.getStatus() == BugStatus::Open) {
                 std::cout << "The task with ID " << bug.id << " has been assigned to " << programmer->username << "\n";
                 bug.assign(programmer->username, managerUsername);
@@ -68,7 +66,7 @@ void BugManager::assignToProgrammer(bugPtr assignedBug, userPtr programmer, stri
         std::cout << "No user has been assigned although assignToProgrammer() had been invoked\n";
 }
 
-bugList BugManager::getSimplifiedList(BugStatus status)
+bugList BugManager::getSimplifiedList(BugStatus status) const
 {
     bugList list;
     for(auto& bug: bugs)
@@ -81,13 +79,13 @@ bugList BugManager::getSimplifiedList(BugStatus status)
     return list;
 }
 
-bugPtr BugManager::find(int bugId)
+Bug& BugManager::find(int bugId)
 {
-    for(auto& bug: bugs)
+    for(Bug& bug: bugs)
         if (bug.id == bugId)
-            return std::make_shared<Bug>(bug);
+            return bug;
     
-    return std::make_shared<Bug>(Bug());
+    return bugNullObject;
 }
 
 void BugManager::uploadLocalDatabaseToRemoteDatabase()
@@ -102,13 +100,8 @@ void BugManager::uploadLocalDatabaseToRemoteDatabase()
             bug.assignedAt, bug.solvedAt, bug.assignedBy, bug.assignedTo, bug.id
         );
 
-        std::cout << sql << "\n";
 
-        if (db.execute(sql))
-            std::cout << "UPDATED!\n";
-        else {
-            std::cout << "Unable to upload the local db to the remote db.\n";
-        }
+        db.execute(sql);
 
     }
 }

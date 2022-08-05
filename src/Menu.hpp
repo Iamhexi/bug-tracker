@@ -6,11 +6,11 @@ class Menu
 {
 private:
     System system;
-    const char* unknownCommandMessage = "It seems like you entered an incorrect option. Try again\n";
+    static constexpr string_view unknownCommandMessage {"It seems like you entered an incorrect option. Please, try again.\n"};
 public:
     void init();
 private:
-    void showInitialPanel();
+    void authorise();
     void showGodModeMenu();
     void showProgrammerMenu();
     void showTesterMenu();

@@ -36,8 +36,6 @@ usersSummary Database::getUsersSummary(string_view sql)
     string data("CALLBACK FUNCTION");
     int rc = sqlite3_exec(db, query.c_str(), userSummaryCallback, (void*)data.c_str(), NULL);
 
-    std::cout << "RESPONCE FROM DB " << sqlite3_errmsg(db) << "\n";
-
     return retrievedUsers;
 }
 

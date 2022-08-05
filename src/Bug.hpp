@@ -45,10 +45,10 @@ public:
     void assign(string programmer, string manager);
     void markAsSolved();
 
-    bool operator==(const Bug& bug);
-    BugStatus getStatus();
+    bool operator==(const Bug& bug) const;
+    BugStatus getStatus() const;
 private:
-    double getCurrentTime();
+    double getCurrentTime() const;
 };
 
 

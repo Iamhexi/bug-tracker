@@ -24,7 +24,7 @@ void System::reportBug()
 
 void System::assignBugToSolver() 
 {
-    bugPtr bug = printBugChooser(BugStatus::Open);
+    Bug& bug = printBugChooser(BugStatus::Open);
     userPtr user = printUserChooser(UserRole::Programmer);
     bugs.assignToProgrammer(bug, user, currentUser->username);
 
@@ -33,10 +33,10 @@ void System::assignBugToSolver()
 
 void System::markBugAsSolved() 
 {
-    bugPtr solvedBug = printBugChooser(BugStatus::In_progress);
-    bugs.markAsSolved(*solvedBug);
+    Bug& solvedBug = printBugChooser(BugStatus::In_progress);
+    bugs.markAsSolved(solvedBug);
 
-    solvedBug->markAsSolved();
+    solvedBug.markAsSolved();
 }
 
 void System::login() 
@@ -68,7 +68,7 @@ void System::signUp()
     }
 }
 
-bugPtr System::printBugChooser(BugStatus bugStatus) 
+Bug& System::printBugChooser(BugStatus bugStatus)
 {
     bugList existingBugs = bugs.getSimplifiedList(bugStatus);
 
@@ -83,18 +83,17 @@ bugPtr System::printBugChooser(BugStatus bugStatus)
     return bugs.find(choice);
 }
 
-void System::printBugs(BugStatus status)
+void System::printBugs(BugStatus status) const
 {
     bugList existingBugs = bugs.getSimplifiedList(status);
-    cout << "ID\tDescription\t";
+    cout << "ID\tDescription\n";
     for(auto& bug: existingBugs)
         cout << bug.id << "\t" << bug.description << "\n";
     cout << '\n';
 }
 
-userPtr System::printUserChooser(UserRole role) 
+userPtr System::printUserChooser(UserRole role) const
 {
-    // TODO 
     UserManager userManager;
     usersSummary allUsers = userManager.getUsersSummary(role);
 
@@ -109,7 +108,7 @@ userPtr System::printUserChooser(UserRole role)
     return userManager.find(choice);
 }
 
-string System::requestUsername()
+string System::requestUsername() const
 {
     string username;
     cout << "Username: ";
@@ -117,7 +116,7 @@ string System::requestUsername()
     return username;
 }
 
-string System::requestPassword() 
+string System::requestPassword() const
 {
     char* password;
     password = getpass("Password: ");
