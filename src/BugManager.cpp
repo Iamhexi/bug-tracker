@@ -1,7 +1,6 @@
 #include "BugManager.hpp"
 #include <iostream>
 #include <fmt/core.h>
-#include "BugNullObject.hpp"
 
 BugManager::BugManager()
 {
@@ -93,13 +92,10 @@ void BugManager::uploadLocalDatabaseToRemoteDatabase()
     Database db;
     for(auto& bug: bugs)
     {
-        std::cout << bug.id << "\t" << bug.assignedBy << "\t" << bug.assignedTo << "\n";
-
         string sql = fmt::format(
             "UPDATE bugs SET assignedAt = {0}, solvedAt = {1}, assignedBy = '{2}', assignedTo = '{3}' WHERE id = {4};",
             bug.assignedAt, bug.solvedAt, bug.assignedBy, bug.assignedTo, bug.id
         );
-
 
         db.execute(sql);
 

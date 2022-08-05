@@ -3,6 +3,7 @@
 #include "Programmer.hpp"
 #include "Bug.hpp"
 #include "Database.hpp"
+#include "BugNullObject.hpp"
 
 using userPtr = std::shared_ptr<User>;
 using bugList = std::vector<SimplifiedBug>;
