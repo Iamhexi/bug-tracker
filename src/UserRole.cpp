@@ -23,6 +23,10 @@ std::string convertUserRoleToString(UserRole role)
     case UserRole::Tester:
         return "Tester";
         break;
+
+    case UserRole::Root:
+        return "Administrator";
+        break;
     
     default:
         return "Unknown role";

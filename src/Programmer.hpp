@@ -3,4 +3,7 @@
 
 class Programmer: public User
 {
+public:
+    Programmer(std::string_view username);
+    virtual UserRole getUserRole() const override;
 };

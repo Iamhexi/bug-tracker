@@ -24,7 +24,7 @@ TEST(UserManagerTest, TestModyfingUser)
     user->username = "nono";
 
     // the second expression creates a new user
-    ASSERT_EQ(u.find("nono"), std::make_shared<User>("nono"));
+    ASSERT_EQ(u.find("nono"), User::create(UserRole::None, "nono"));
 }
 
 TEST(UserManagerTest, TestModyfingUserAndSavingChanges)
@@ -35,5 +35,5 @@ TEST(UserManagerTest, TestModyfingUserAndSavingChanges)
     auto user = u.find("igor");
     user->username = "nono";
 
-    ASSERT_EQ(u.find("igor"), std::make_shared<User>("USER NOT FOUND"));
+    ASSERT_EQ(u.find("igor"), User::create(UserRole::None, "USER NOT FOUND"));
 }

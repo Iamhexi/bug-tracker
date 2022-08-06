@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_set>
 
+using namespace std::literals;
+
 Authenticator::Authenticator()
 {
     loadCredentialsFromDatabase();
@@ -35,3 +37,8 @@ bool Authenticator::signUp(string_view username, string_view password)
     + hashedPassword + "', " + std::to_string(static_cast<int>(defaultRole)) + ");");
 }
 
+UserRole Authenticator::getUserRole(string_view username)
+{
+    Database db;
+    return db.getUserRole("SELECT role FROM credentials WHERE username = '"s + string(username) + "';");
+}

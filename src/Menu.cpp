@@ -1,10 +1,35 @@
 #include "Menu.hpp"
 #include <cstdlib>
 
-void Menu::init()
+void Menu::showAppropriateMenu()
 {
-    authorise();
-    showGodModeMenu();
+    switch (system.getUserRole())
+    {
+    case UserRole::Programmer:
+        showProgrammerMenu();
+        break;
+
+    case UserRole::Tester:
+        showTesterMenu();
+        break;
+
+    case UserRole::Manager:
+        showManagerMenu();
+        break;
+
+    case UserRole::Root:
+        showGodModeMenu();
+        break;
+
+    case UserRole::None:
+        cout << "You don't have any role assigned. Ask your administrator to assign you some role. Exitting...";
+        exit(1);
+    
+    default:
+        cout << "You are logged as an unknown role. Who are you actually? Exitting...";
+        exit(2);
+        break;
+    }
 }
 
 void Menu::showProgrammerMenu()

@@ -46,7 +46,9 @@ void System::login()
     Authenticator auth;
     
     if (auth.login(username, password)) {
-        currentUser = std::make_shared<User>( User(username) );
+        UserRole role = auth.getUserRole(username);
+        currentUser = User::create(role, username);
+        // TODO Change programmer to the dynamically chosen class
         cout << "Successfully signed in.\n";
         return;
     } else {
@@ -61,7 +63,8 @@ void System::signUp()
     Authenticator auth;
     
     if (auth.signUp(username, password)) {
-        currentUser = std::make_shared<User>( User(username) );
+        currentUser = User::create(UserRole::Programmer, username);
+        // TODO Change programmer to the dynamically chosen class
         cout << "Successfully registered.\n";
     } else {
         cout << "Failed to register, a user with the given username already exists.\n";
@@ -126,4 +129,9 @@ string System::requestPassword() const
 bool System::isUserSignedIn() const
 {
     return currentUser != nullptr;
+}
+
+UserRole System::getUserRole() const
+{
+    return currentUser->getUserRole();
 }

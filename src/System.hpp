@@ -24,6 +24,7 @@ public:
     void signUp();
     void printBugs(BugStatus status) const;
     bool isUserSignedIn() const;
+    UserRole getUserRole() const;
 private:
     Bug& printBugChooser(BugStatus bugStatus = BugStatus::All);
     userPtr printUserChooser(UserRole role = UserRole::All) const;

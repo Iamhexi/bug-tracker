@@ -30,8 +30,8 @@ userPtr UserManager::find(string username)
     for(auto& user: users){
         if (user.first == username) 
         // TODO: HASH string and then compare them for perfomance
-            return std::make_shared<User>( User(username) );
+            return User::create(UserRole::Programmer, username);
     }
     
-    return std::make_shared<User>("USER NOT FOUND");
+    return User::create(UserRole::Programmer, "USER NOT FOUND");
 }

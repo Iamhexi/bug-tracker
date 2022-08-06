@@ -22,6 +22,7 @@ private:
     static row retrievedRecords;
     static bugVector retrievedBugs;
     static usersSummary retrievedUsers;
+    static UserRole retrievedUserRole;
 public: 
     Database();
     ~Database();
@@ -29,6 +30,7 @@ public:
     row getCredentialsMap(string_view sql);
     bugVector getBugVector(string_view sql);
     usersSummary getUsersSummary(string_view sql);
+    UserRole getUserRole(string_view sql);
 
 
 private:
@@ -36,6 +38,7 @@ private:
     static int emptyCallback(void* data, int argc, char** argv, char** azColName);
     static int bugCallback(void* data, int argc, char** argv, char** azColName);
     static int userSummaryCallback(void* data, int argc, char** argv, char** azColName);
+    static int userRoleCallback(void* data, int argc, char** argv, char** azColName);
 };
 
 struct DatabaseException : public std::exception {

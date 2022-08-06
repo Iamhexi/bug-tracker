@@ -2,8 +2,13 @@
 
 int main()
 {
+    // you cannot log in, check creating user type nad loggin in methods
+
     Menu menu;
-    menu.init();
+    
+    menu.authorise();
+
+    menu.showAppropriateMenu();
 
     return 0;
 }

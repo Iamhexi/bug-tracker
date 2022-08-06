@@ -14,6 +14,7 @@ public:
     Authenticator();
     bool login(string_view username, string_view password);
     bool signUp(string_view username, string_view password);
+    UserRole getUserRole(string_view username);
 private:
     void loadCredentialsFromDatabase();
 };
