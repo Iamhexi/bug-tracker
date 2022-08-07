@@ -9,7 +9,11 @@ std::string convertUserRoleToString(UserRole role)
         break;
 
     case UserRole::All:
+<<<<<<< HEAD
         return "Each roles";
+=======
+        return "Any role";
+>>>>>>> development
         break;
 
     case UserRole::Programmer:
@@ -23,6 +27,13 @@ std::string convertUserRoleToString(UserRole role)
     case UserRole::Tester:
         return "Tester";
         break;
+<<<<<<< HEAD
+=======
+
+    case UserRole::Root:
+        return "Administrator";
+        break;
+>>>>>>> development
     
     default:
         return "Unknown role";

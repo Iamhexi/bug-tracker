@@ -9,6 +9,10 @@
 row Database::retrievedRecords;
 bugVector Database::retrievedBugs;
 usersSummary Database::retrievedUsers;
+<<<<<<< HEAD
+=======
+UserRole Database::retrievedUserRole = UserRole::None;
+>>>>>>> development
 
 Database::Database() 
 {
@@ -36,8 +40,11 @@ usersSummary Database::getUsersSummary(string_view sql)
     string data("CALLBACK FUNCTION");
     int rc = sqlite3_exec(db, query.c_str(), userSummaryCallback, (void*)data.c_str(), NULL);
 
+<<<<<<< HEAD
     std::cout << "RESPONCE FROM DB " << sqlite3_errmsg(db) << "\n";
 
+=======
+>>>>>>> development
     return retrievedUsers;
 }
 
@@ -58,6 +65,28 @@ bugVector Database::getBugVector(string_view sql)
     return retrievedBugs;
 }
 
+<<<<<<< HEAD
+=======
+UserRole Database::getUserRole(string_view sql)
+{
+    string query = string(sql);
+    string data("CALLBACK FUNCTION");
+    int rc = sqlite3_exec(db, query.c_str(), userRoleCallback, (void*)data.c_str(), NULL);
+    return retrievedUserRole;
+}
+
+int Database::userRoleCallback(void* data, int argc, char** argv, char** azColName)
+{
+    string roleNumberAsString = (argv[0] == NULL) ? "" : argv[0];
+    
+    if (roleNumberAsString.size() == 0)
+        return 1;
+
+    retrievedUserRole = static_cast<UserRole>( std::stoi(roleNumberAsString) );
+    return 0;
+}
+
+>>>>>>> development
 int Database::userSummaryCallback(void* data, int argc, char** argv, char** azColName)
 {
     usersSummary summary;
@@ -119,3 +148,7 @@ int Database::getRowsCallback(void* data, int argc, char** argv, char** azColNam
 }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> development

@@ -22,6 +22,7 @@ public:
     void markBugAsSolved();
     void login();
     void signUp();
+<<<<<<< HEAD
     void printBugs(BugStatus status);
     bool isSignedIn() const;
 private:
@@ -29,4 +30,14 @@ private:
     userPtr printUserChooser(UserRole role = UserRole::All);
     string requestUsername();
     string requestPassword();
+=======
+    void printBugs(BugStatus status) const;
+    bool isUserSignedIn() const;
+    UserRole getUserRole() const;
+private:
+    Bug& printBugChooser(BugStatus bugStatus = BugStatus::All);
+    userPtr printUserChooser(UserRole role = UserRole::All) const;
+    string requestUsername() const;
+    string requestPassword() const;
+>>>>>>> development
 };
