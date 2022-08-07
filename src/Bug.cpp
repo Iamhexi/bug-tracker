@@ -35,30 +35,18 @@ void Bug::markAsSolved()
   solvedAt = getCurrentTime();
 }
 
-<<<<<<< HEAD
-bool Bug::operator==(const Bug& bug)
-=======
 bool Bug::operator==(const Bug& bug) const
->>>>>>> development
 {
   return this->id == bug.id;
 }
 
-<<<<<<< HEAD
-double Bug::getCurrentTime()
-=======
 double Bug::getCurrentTime() const
->>>>>>> development
 {
   const auto p1 = std::chrono::system_clock::now();
   return std::chrono::duration_cast<std::chrono::seconds>( p1.time_since_epoch() ).count();
 }
 
-<<<<<<< HEAD
-BugStatus Bug::getStatus()
-=======
 BugStatus Bug::getStatus() const
->>>>>>> development
 {
   if (solvedAt > 0L)
     return BugStatus::Closed;

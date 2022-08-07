@@ -7,12 +7,8 @@ enum class UserRole
     All = 0,
     Manager = 1,
     Programmer = 2,
-<<<<<<< HEAD
-    Tester = 3
-=======
     Tester = 3,
     Root = 4
->>>>>>> development
 };
 
 std::string convertUserRoleToString(UserRole role);

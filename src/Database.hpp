@@ -16,20 +16,13 @@ using bugVector = std::vector<Bug>;
 class Database 
 {
 private:
-<<<<<<< HEAD
-    string databaseSourceFile = string("../db/credentials.db");
-=======
     static constexpr string_view databaseSourceFile {"../db/credentials.db"};
->>>>>>> development
     sqlite3* db;
 
     static row retrievedRecords;
     static bugVector retrievedBugs;
     static usersSummary retrievedUsers;
-<<<<<<< HEAD
-=======
     static UserRole retrievedUserRole;
->>>>>>> development
 public: 
     Database();
     ~Database();
@@ -37,10 +30,7 @@ public:
     row getCredentialsMap(string_view sql);
     bugVector getBugVector(string_view sql);
     usersSummary getUsersSummary(string_view sql);
-<<<<<<< HEAD
-=======
     UserRole getUserRole(string_view sql);
->>>>>>> development
 
 
 private:
@@ -48,10 +38,7 @@ private:
     static int emptyCallback(void* data, int argc, char** argv, char** azColName);
     static int bugCallback(void* data, int argc, char** argv, char** azColName);
     static int userSummaryCallback(void* data, int argc, char** argv, char** azColName);
-<<<<<<< HEAD
-=======
     static int userRoleCallback(void* data, int argc, char** argv, char** azColName);
->>>>>>> development
 };
 
 struct DatabaseException : public std::exception {

@@ -24,11 +24,7 @@ void System::reportBug()
 
 void System::assignBugToSolver() 
 {
-<<<<<<< HEAD
-    bugPtr bug = printBugChooser(BugStatus::Open);
-=======
     Bug& bug = printBugChooser(BugStatus::Open);
->>>>>>> development
     userPtr user = printUserChooser(UserRole::Programmer);
     bugs.assignToProgrammer(bug, user, currentUser->username);
 
@@ -37,36 +33,14 @@ void System::assignBugToSolver()
 
 void System::markBugAsSolved() 
 {
-<<<<<<< HEAD
-    bugPtr solvedBug = printBugChooser(BugStatus::In_progress);
-    bugs.markAsSolved(*solvedBug);
-
-    solvedBug->markAsSolved();
-=======
     Bug& solvedBug = printBugChooser(BugStatus::In_progress);
     bugs.markAsSolved(solvedBug);
 
     solvedBug.markAsSolved();
->>>>>>> development
 }
 
 void System::login() 
 {
-<<<<<<< HEAD
-    while (true)
-    {
-        string username = requestUsername();
-        string password = requestPassword();
-        Authenticator auth;
-        
-        if (auth.login(username, password)) {
-            currentUser = std::make_shared<User>( User(username) );
-            cout << "Successfully signed in.\n";
-            break;
-        } else {
-            cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
-        }
-=======
     string username = requestUsername();
     string password = requestPassword();
     Authenticator auth;
@@ -84,7 +58,6 @@ void System::login()
         }
     } else {
         cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
->>>>>>> development
     }
 }
 
@@ -95,23 +68,14 @@ void System::signUp()
     Authenticator auth;
     
     if (auth.signUp(username, password)) {
-<<<<<<< HEAD
-        currentUser = std::make_shared<User>( User(username) );
-=======
         currentUser = User::create(UserRole::Programmer, username);
-        // TODO Change programmer to the dynamically chosen class
->>>>>>> development
         cout << "Successfully registered.\n";
     } else {
         cout << "Failed to register, a user with the given username already exists.\n";
     }
 }
 
-<<<<<<< HEAD
-bugPtr System::printBugChooser(BugStatus bugStatus) 
-=======
 Bug& System::printBugChooser(BugStatus bugStatus)
->>>>>>> development
 {
     bugList existingBugs = bugs.getSimplifiedList(bugStatus);
 
@@ -126,30 +90,17 @@ Bug& System::printBugChooser(BugStatus bugStatus)
     return bugs.find(choice);
 }
 
-<<<<<<< HEAD
-void System::printBugs(BugStatus status)
-{
-    bugList existingBugs = bugs.getSimplifiedList(status);
-    cout << "ID\tDescription\t";
-=======
 void System::printBugs(BugStatus status) const
 {
     bugList existingBugs = bugs.getSimplifiedList(status);
     cout << "ID\tDescription\n";
->>>>>>> development
     for(auto& bug: existingBugs)
         cout << bug.id << "\t" << bug.description << "\n";
     cout << '\n';
 }
 
-<<<<<<< HEAD
-userPtr System::printUserChooser(UserRole role) 
-{
-    // TODO 
-=======
 userPtr System::printUserChooser(UserRole role) const
 {
->>>>>>> development
     UserManager userManager;
     usersSummary allUsers = userManager.getUsersSummary(role);
 
@@ -164,11 +115,7 @@ userPtr System::printUserChooser(UserRole role) const
     return userManager.find(choice);
 }
 
-<<<<<<< HEAD
-string System::requestUsername()
-=======
 string System::requestUsername() const
->>>>>>> development
 {
     string username;
     cout << "Username: ";
@@ -176,23 +123,13 @@ string System::requestUsername() const
     return username;
 }
 
-<<<<<<< HEAD
-string System::requestPassword() 
-=======
 string System::requestPassword() const
->>>>>>> development
 {
     char* password;
     password = getpass("Password: ");
     return string(password);
 }
 
-<<<<<<< HEAD
-bool System::isSignedIn() const
-{
-    return currentUser != nullptr;
-}
-=======
 bool System::isUserSignedIn() const
 {
     return currentUser != nullptr;
@@ -202,4 +139,3 @@ UserRole System::getUserRole() const
 {
     return currentUser->getUserRole();
 }
->>>>>>> development
