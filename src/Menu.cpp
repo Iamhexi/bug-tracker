@@ -94,7 +94,7 @@ void Menu::showManagerMenu()
         cout << "2 - Assign a new task to a programmer.\n";
         cout << "3 - Show bugs are being fixed.\n";
         cout << "4 - Show closed bug reports.\n";
-        cout << "0 - Exit and save changes\n.";
+        cout << "0 - Exit and save changes.\n";
         
         cout << "Your choice: ";
         cin >> choice;

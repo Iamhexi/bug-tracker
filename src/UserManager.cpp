@@ -29,7 +29,6 @@ userPtr UserManager::find(string username)
 {
     for(auto& user: users){
         if (user.first == username) 
-        // TODO: HASH string and then compare them for perfomance
             return User::create(UserRole::Programmer, username);
     }
     

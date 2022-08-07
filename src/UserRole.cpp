@@ -9,7 +9,7 @@ std::string convertUserRoleToString(UserRole role)
         break;
 
     case UserRole::All:
-        return "Each roles";
+        return "Any role";
         break;
 
     case UserRole::Programmer:

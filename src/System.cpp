@@ -48,9 +48,14 @@ void System::login()
     if (auth.login(username, password)) {
         UserRole role = auth.getUserRole(username);
         currentUser = User::create(role, username);
-        // TODO Change programmer to the dynamically chosen class
-        cout << "Successfully signed in.\n";
-        return;
+        
+        if (currentUser != nullptr) {
+            cout << "You are " << username <<  " [" << convertUserRoleToString(role) << "].\n";
+            return;
+        } else {
+            cout << "You signed in correctly but your role is incorrect. Exitting...\n";
+            exit(0);
+        }
     } else {
         cout << "Failed to sign in, incorrect credentials were given. Try again. \n";
     }

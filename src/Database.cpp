@@ -9,7 +9,7 @@
 row Database::retrievedRecords;
 bugVector Database::retrievedBugs;
 usersSummary Database::retrievedUsers;
-UserRole Database::retrievedUserRole;
+UserRole Database::retrievedUserRole = UserRole::None;
 
 Database::Database() 
 {
@@ -67,7 +67,7 @@ UserRole Database::getUserRole(string_view sql)
 
 int Database::userRoleCallback(void* data, int argc, char** argv, char** azColName)
 {
-    string roleNumberAsString = argv[0] == NULL ? "" : argv[0];
+    string roleNumberAsString = (argv[0] == NULL) ? "" : argv[0];
     
     if (roleNumberAsString.size() == 0)
         return 1;

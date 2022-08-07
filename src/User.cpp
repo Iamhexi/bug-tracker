@@ -2,6 +2,7 @@
 #include "Tester.hpp"
 #include "Programmer.hpp"
 #include "Manager.hpp"
+#include "Root.hpp"
 
 User::User(std::string_view username)
 {
@@ -28,7 +29,12 @@ std::shared_ptr<User> User::create(UserRole role, std::string_view username)
         case UserRole::Manager:
             return std::make_shared<Manager>( Manager(username) );
             break;
+
+        case UserRole::Root:
+            return std::make_shared<Root>( Root(username) );
+
+        default:
+            return nullptr;
     }
 
-    return nullptr;
 }
