@@ -1,36 +1,36 @@
 #include "UserManager.hpp"
 #include "Database.hpp"
 #include <iostream>
+#include <fmt/core.h>
 
 UserManager::UserManager()
 {
-    users = getUsersSummary();
+    users = downloadUserListFromDatabase();
 }
 
-usersSummary UserManager::getUsersSummary(UserRole role)
+userVector UserManager::downloadUserListFromDatabase(UserRole role)
 {
-
     Database db;
-    string sql;
-    int userRoleAsInt = static_cast<int>(role);
-    if (role != UserRole::All){
-        sql = string("SELECT login, role FROM credentials WHERE role = ") +
-        std::to_string(userRoleAsInt) + ";";
+    string sql {};
 
-        return db.getUsersSummary(sql);
+    if (role == UserRole::All) {
+        sql = fmt::format("SELECT login, hashedPassword, role FROM credentials;");
     } else {
-        sql = "SELECT login, role FROM credentials;";
-        return db.getUsersSummary(sql);
-
+        int userRoleAsInteger = static_cast<int>(role);
+        sql = fmt::format(
+            "SELECT login, hashedPassword, role FROM credentials WHERE role = {0};", userRoleAsInteger
+        );
     }
+
+    return db.getUserVector(sql);
 }
 
-userPtr UserManager::find(string username)
+userPtr UserManager::find(string_view username)
 {
     for(auto& user: users){
-        if (user.first == username) 
+        if (user->username == username) 
             return User::create(UserRole::Programmer, username);
     }
     
-    return User::create(UserRole::Programmer, "USER NOT FOUND");
+    return User::create(UserRole::None, "USER NOT FOUND");
 }

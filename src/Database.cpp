@@ -8,7 +8,7 @@
 
 row Database::retrievedRecords;
 bugVector Database::retrievedBugs;
-usersSummary Database::retrievedUsers;
+userVector Database::retrievedUsers;
 UserRole Database::retrievedUserRole = UserRole::None;
 
 Database::Database() 
@@ -31,16 +31,16 @@ bool Database::execute(string_view sql)
     return !sqlite3_exec(db, query.c_str(), emptyCallback, (void*)data.c_str(), NULL);
 }
 
-usersSummary Database::getUsersSummary(string_view sql)
+userVector Database::getUserVector(string_view sql)
 {
-    string query = string(sql);
-    string data("CALLBACK FUNCTION");
-    int rc = sqlite3_exec(db, query.c_str(), userSummaryCallback, (void*)data.c_str(), NULL);
+    string data {"CALLBACK FUNCTION"};
+    int rc = sqlite3_exec(db, string(sql).c_str(), userCallback, (void*)data.c_str(), NULL);
 
     return retrievedUsers;
 }
 
-row Database::getCredentialsMap(string_view sql) 
+
+row Database::getCredentialsMap(string_view sql)
 {
     string query = string(sql);
     string data("CALLBACK FUNCTION");
@@ -76,19 +76,20 @@ int Database::userRoleCallback(void* data, int argc, char** argv, char** azColNa
     return 0;
 }
 
-int Database::userSummaryCallback(void* data, int argc, char** argv, char** azColName)
+int Database::userCallback(void* data, int argc, char** argv, char** azColName)
 {
-    usersSummary summary;
-    constexpr unsigned int columnsPerUserInTable = 2;
+    userVector users;
+    constexpr unsigned int columnsPerUserInTable = 3;
     for (int i = 0; i < argc; i += columnsPerUserInTable) 
     {
         string username = string(argv[i]);
-        UserRole role = static_cast<UserRole>( std::stoi( string(argv[i+1]) ) );
+        string hashedPassword = string(argv[i+1]);
+        UserRole role = static_cast<UserRole>( std::stoi( string(argv[i+2]) ) );
 
-        summary.insert( std::pair<string, UserRole>(username, role) );
+        users.push_back( User::create(role, username, hashedPassword) );
     }
 
-    retrievedUsers.insert(summary.begin(), summary.end());
+    retrievedUsers.insert(retrievedUsers.end(), users.begin(), users.end());
     return 0;
 }
 

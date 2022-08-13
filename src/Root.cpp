@@ -1,11 +1,9 @@
 #include "Root.hpp"
 
-Root::Root(std::string_view username) : User(username)
-{
+Root::Root(string_view username, string_view hashedPassword) 
+    : User(username, hashedPassword) {}
 
-}
-
-UserRole Root::getUserRole() const
+constexpr UserRole Root::getUserRole() const
 {
     return UserRole::Root;
 }

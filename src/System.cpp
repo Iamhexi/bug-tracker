@@ -47,7 +47,7 @@ void System::login()
     
     if (auth.login(username, password)) {
         UserRole role = auth.getUserRole(username);
-        currentUser = User::create(role, username);
+        currentUser = User::create(role, username, "");
         
         if (currentUser != nullptr) {
             cout << "You are " << username <<  " [" << convertUserRoleToString(role) << "].\n";
@@ -68,7 +68,7 @@ void System::signUp()
     Authenticator auth;
     
     if (auth.signUp(username, password)) {
-        currentUser = User::create(UserRole::Programmer, username);
+        currentUser = User::create(UserRole::Programmer, username, "");
         // TODO Change programmer to the dynamically chosen class
         cout << "Successfully registered.\n";
     } else {
@@ -103,11 +103,11 @@ void System::printBugs(BugStatus status) const
 userPtr System::printUserChooser(UserRole role) const
 {
     UserManager userManager;
-    usersSummary allUsers = userManager.getUsersSummary(role);
+    userVector allUsers = userManager.downloadUserListFromDatabase(role);
 
     cout << "Username\tRole\n";
-    for(auto& userSummary: allUsers)
-        cout << userSummary.first << "\t" << convertUserRoleToString(userSummary.second) << "\n";
+    for(auto& user: allUsers)
+        cout << user->username << "\t" << convertUserRoleToString(user->role) << "\n";
 
     string choice;
     cout << "Enter username to choose them: ";

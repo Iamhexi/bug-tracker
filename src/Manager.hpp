@@ -4,6 +4,6 @@
 class Manager: public User
 {
 public:
-    Manager(std::string_view username);
+    Manager(string_view username, string_view hashedPassword);
     virtual UserRole getUserRole() const override;
 };

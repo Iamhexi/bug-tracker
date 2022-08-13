@@ -12,6 +12,8 @@ using usersSummary = std::map<std::string, UserRole>;
 using std::string, std::string_view;
 using row = std::map<string, string>;
 using bugVector = std::vector<Bug>;
+using userVector = std::vector<std::shared_ptr<User>>;
+
 
 class Database 
 {
@@ -21,7 +23,7 @@ private:
 
     static row retrievedRecords;
     static bugVector retrievedBugs;
-    static usersSummary retrievedUsers;
+    static userVector retrievedUsers;
     static UserRole retrievedUserRole;
 public: 
     Database();
@@ -29,7 +31,7 @@ public:
     bool execute(string_view sql);
     row getCredentialsMap(string_view sql);
     bugVector getBugVector(string_view sql);
-    usersSummary getUsersSummary(string_view sql);
+    userVector getUserVector(string_view sql);
     UserRole getUserRole(string_view sql);
 
 
@@ -37,7 +39,7 @@ private:
     static int getRowsCallback(void* data, int argc, char** argv, char** azColName);
     static int emptyCallback(void* data, int argc, char** argv, char** azColName);
     static int bugCallback(void* data, int argc, char** argv, char** azColName);
-    static int userSummaryCallback(void* data, int argc, char** argv, char** azColName);
+    static int userCallback(void* data, int argc, char** argv, char** azColName);
     static int userRoleCallback(void* data, int argc, char** argv, char** azColName);
 };
 

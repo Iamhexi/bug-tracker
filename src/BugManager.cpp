@@ -45,6 +45,12 @@ void BugManager::markAsSolved(const Bug& solvedBug)
 
 void BugManager::assignToProgrammer(Bug& assignedBug, userPtr programmer, string managerUsername)
 {
+    if (programmer == nullptr) {
+        std::cout << "Cannot assign bug to a non-existent user.\n";
+        return;
+    }
+
+
     for(Bug& bug: bugs)
     {
         if (bug == assignedBug) {

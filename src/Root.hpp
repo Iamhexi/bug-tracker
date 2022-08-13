@@ -4,6 +4,6 @@
 class Root: public User
 {
 public:
-    Root(std::string_view username);
-    virtual UserRole getUserRole() const override;
+    Root(string_view username, string_view hashedPassword);
+    virtual constexpr UserRole getUserRole() const override;
 };

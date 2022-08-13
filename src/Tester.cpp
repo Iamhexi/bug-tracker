@@ -1,9 +1,7 @@
 #include "Tester.hpp"
 
-Tester::Tester(std::string_view username) : User(username)
-{
-
-}
+Tester::Tester(string_view username, string_view hashedPassword) 
+    : User(username, hashedPassword) {}
 
 UserRole Tester::getUserRole() const
 {

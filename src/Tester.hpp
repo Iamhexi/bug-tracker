@@ -4,6 +4,6 @@
 class Tester: public User
 {
 public:
-    Tester(std::string_view username);
+    Tester(string_view username, string_view hashedPassword);
     virtual UserRole getUserRole() const override;
 };

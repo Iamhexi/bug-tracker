@@ -4,6 +4,6 @@
 class Programmer: public User
 {
 public:
-    Programmer(std::string_view username);
+    Programmer(string_view username, string_view hashedPassword);
     virtual UserRole getUserRole() const override;
 };

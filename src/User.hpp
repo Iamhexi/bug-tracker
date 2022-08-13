@@ -5,15 +5,23 @@
 #include <iostream>
 #include <memory>
 
+using std::string, std::string_view;
+
 class User
 {
 public:
-    std::string username;
+    string username {};
+    string hashedPassword {};
+    UserRole role = UserRole::None;
 public:
-    User(std::string_view username);
+    User(string_view username, string_view hashedPassword);
     virtual ~User() = default;
     bool operator==(const User& user);
 
     virtual UserRole getUserRole() const = 0;
-    static std::shared_ptr<User> create(UserRole role, std::string_view username);
+    static std::shared_ptr<User> create(
+        UserRole role,
+        string_view username,
+        string_view hashedPassword = ""
+    );
 };

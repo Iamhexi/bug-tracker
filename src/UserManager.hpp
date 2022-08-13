@@ -5,17 +5,17 @@
 #include <vector>
 #include <map>
 
-using usersSummary = std::map<std::string, UserRole>;
 using userPtr = std::shared_ptr<User>;
+using userVector = std::vector<userPtr>;
 
 // The class retrieves users from DB and can get list of usernames and their corresponding roles.
 
 class UserManager
 {
 private:
-    usersSummary users;
+    std::vector<userPtr> users;
 public:
     UserManager();
-    usersSummary getUsersSummary(UserRole role = UserRole::All);
-    userPtr find(string username);
+    userVector downloadUserListFromDatabase(UserRole role = UserRole::All);
+    userPtr find(string_view username);
 };

@@ -1,9 +1,7 @@
 #include "Programmer.hpp"
 
-Programmer::Programmer(std::string_view username) : User(username)
-{
-
-}
+Programmer::Programmer(string_view username, string_view hashedPassword) 
+    : User(username, hashedPassword) {}
 
 UserRole Programmer::getUserRole() const
 {
